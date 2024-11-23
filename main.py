@@ -5,35 +5,6 @@ logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s - %(levelname)s - %(message)s"
 )
-#
-# # Example usage
-# data = [
-#     {"presentation": 8, "materials": 9, "knowledge": 7, "communication": 10},
-#     {"presentation": 7, "materials": 8, "knowledge": 9, "communication": 9},
-#     {"presentation": 9, "materials": 7, "knowledge": 8, "communication": 10}
-# ]
-#
-# weights = {
-#     "presentation": 0.25,
-#     "materials": 0.25,
-#     "knowledge": 0.25,
-#     "communication": 0.25
-# }
-#
-# value_range = {
-#     "min": 1,
-#     "max": 10
-# }
-#
-# net_data = {'data': data, 'weights': weights, 'value_range': value_range}
-# json_data = json.dumps(net_data)
-# вызывается сервис и передается json
-# валидируем json
-# work = json.loads(json_data)
-# work_data = work['data']
-# work_weights = work['weights']
-# work_value_range = work['value_range']
-
 
 # Этап 1: Рассчитать средние оценки по каждому параметру
 def calculate_averages(data):
@@ -109,16 +80,6 @@ def calculate_final_rating(data, weights, value_range):
         "final_rating": final_rating
     }
 
-
-# # Выполнение расчетов
-# result = calculate_final_rating(work_data, work_weights, work_value_range)
-#
-# # Вывод результата
-# print(json.dumps(result, indent=4))
-# with open("result.json", "w") as f:
-#     json.dump(result, f, indent=4)
-
-# Основная точка входа для веб-сервиса
 def process_rating_request(json_data):
     try:
         logging.info("Processing rating request...")
