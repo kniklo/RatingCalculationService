@@ -4,6 +4,15 @@ import os
 import json
 from main import calculate_final_rating
 
+import logging
+
+# Налаштування логування
+logging.basicConfig(
+    level=logging.INFO,  # Рівень логування: INFO (можна використовувати DEBUG для детальної інформації)
+    format="%(asctime)s - %(levelname)s - %(message)s",  # Формат логів
+)
+logger = logging.getLogger(__name__)
+
 app = Flask(__name__)
 
 UPLOAD_FOLDER = "uploads"
@@ -14,10 +23,13 @@ os.makedirs(RESULT_FOLDER, exist_ok=True)
 
 @app.route('/calculate-rating', methods=['POST'])
 def calculate_rating():
+    logger.info("Запит на розрахунок рейтингу отримано.")
     try:
         # Валидация JSON через Pydantic
         json_data = request.json
+        logger.info(f"Отримані дані: {json_data}")
         validated_data = RatingInput(**json_data)
+        logger.info("Дані пройшли валідацію.")
 
         # Расчет рейтинга
         result = calculate_final_rating(
@@ -25,6 +37,7 @@ def calculate_rating():
             weights=validated_data.weights,
             value_range=validated_data.value_range
         )
+        logger.info(f"Результат обчислень: {result}")
 
         # Сохранение результата в файл
         result_file = "result.json"
@@ -32,7 +45,9 @@ def calculate_rating():
             json.dump({"final_rating": result["final_rating"]}, f, indent=4)
 
         # Возврат файла
+        logger.info("Відповідь успішно сформована.")
         return send_file(result_file, as_attachment=True)
+
 
     except Exception as e:
         return jsonify({"error": str(e)}), 400
@@ -77,4 +92,5 @@ def download_file(filename):
 
 
 if __name__ == "__main__":
+    logger.info("Сервіс розрахунку рейтингу запущено.")
     app.run(debug=True)
