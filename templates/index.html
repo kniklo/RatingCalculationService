@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rating Calculation Service</title>
+</head>
+<body>
+    <h1>Rating Calculation Service</h1>
+    <form action="/" method="POST" enctype="multipart/form-data">
+        <label for="file">Завантажте JSON файл:</label>
+        <input type="file" id="file" name="file" accept=".json" required>
+        <button type="submit">Викликати сервіс</button>
+    </form>
+
+    {% if result %}
+    <h2>Результат:</h2>
+    <pre>{{ result | tojson }}</pre>
+    <a href="{{ download_link }}">Завантажити результат</a>
+    {% endif %}
+</body>
+</html>
